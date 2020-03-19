@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace HoursAccrued
 {
@@ -20,6 +21,21 @@ namespace HoursAccrued
                     LogTime(newNow);
                     TimeSpan diff = newNow.Subtract(now);
                     Console.WriteLine($"You've worked {diff.Hours} hours, {diff.Minutes} minutes.");
+					string path = "C:\\Users\\Ry\\Desktop\\WorkHours.txt";
+					if (!File.Exists(path))
+					{
+						using (StreamWriter sw = File.CreateText(path))
+						{
+							sw.WriteLine($"{diff.Hours}:{diff.Minutes}");
+						}
+					}
+					else
+					{
+						using (StreamWriter sw = File.AppendText(path))
+						{
+							sw.WriteLine($"{diff.Hours}:{diff.Minutes}");
+						}
+					}
                 }
                 else
                 {
