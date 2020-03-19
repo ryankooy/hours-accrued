@@ -36,10 +36,5 @@ namespace HoursAccrued
         {
             Console.WriteLine($"Current time: {now.Hour}:{now.Minute}:{now.Second}");
         }
-
-        static void Time(DateTime there, DateTime here)
-        {
-
-        }
     }
 }
