@@ -18,28 +18,22 @@ namespace HoursAccrued
                 DateTime now = DateTime.Now;
                 InPunch(now, path);
                 Console.WriteLine("Do not close this window!\nType \"stop\" when you are done . . .");
-                string stop = Console.ReadLine().ToLower();
-                if (stop == "stop")
-                {
-                    DateTime newNow = DateTime.Now;
-                    TimeSpan diff = newNow.Subtract(now);
-                    string punch = $"[OUT-PUNCH: {newNow.Hour}:{newNow.Minute}]\n{diff.Minutes} minutes worked\n";
-                    using StreamWriter sw = File.AppendText(path);
-                    sw.WriteLine(punch);
-                    /*try
-                     *{
-                     *    ExcelWrite(diff.Minutes);
-                     *}
-                     *catch (FileNotFoundException e)
-                     *{
-                     *    File.Create(e.FileName);
-                     *}
-                     */
-                }
-                else
-                {
-                    Console.WriteLine("Bye.");
-                }
+                Console.ReadLine();
+                DateTime newNow = DateTime.Now;
+                TimeSpan diff = newNow.Subtract(now);
+                double hours = Math.Round(((int)diff.Minutes / 60.00), 2);
+                string punch = $"[OUT-PUNCH: {newNow.Hour}:{newNow.Minute}]\nHOURS WORKED: {hours}\n";
+                using StreamWriter sw = File.AppendText(path);
+                sw.WriteLine(punch);
+                /*try
+                    *{
+                    *    ExcelWrite(diff.Minutes);
+                    *}
+                    *catch (FileNotFoundException e)
+                    *{
+                    *    File.Create(e.FileName);
+                    *}
+                    */
             }
             else
             {
@@ -49,7 +43,7 @@ namespace HoursAccrued
 
         static void InPunch(DateTime now, string path)
         {
-            string punch = $"[IN-PUNCH: {now.Hour}:{now.Minute}]\n| | |\nv v v";
+            string punch = $"[IN-PUNCH: {now.Hour}:{now.Minute}]";
             if (!File.Exists(path))
             {
                 using StreamWriter sw = File.CreateText(path);
