@@ -23,11 +23,12 @@ namespace HoursAccrued
                 Console.ReadLine();
                 DateTime newNow = DateTime.Now;
                 TimeSpan diff = newNow.Subtract(now);
-                double hours = Math.Round(((int)diff.Minutes / 60.00), 2);
+                double hours = Math.Round(((int)diff.Hours + ((int)diff.Minutes / 60.00)), 2);
                 string punch = $"[OUT-PUNCH: {newNow.Hour}:{newNow.Minute}]\nHOURS WORKED:\n{hours}";
                 double total = Convert.ToDouble(lastTotal);
                 double newTotal = Math.Round(total + hours, 2);
                 using StreamWriter sw = File.AppendText(path);
+                sw.WriteLine($"Test: {diff.Hours} plus {diff.Minutes / 60.00} equals {hours}");
                 sw.WriteLine(punch);
                 sw.WriteLine("NEW TOTAL:");
                 sw.WriteLine(newTotal);
@@ -49,7 +50,7 @@ namespace HoursAccrued
 
         static void InPunch(DateTime now, string path)
         {
-            string punch = $"\n\n[IN-PUNCH: {now.Hour}:{now.Minute}]";
+            string punch = $"\n[IN-PUNCH: {now.Hour}:{now.Minute}]";
             if (!File.Exists(path))
             {
                 using StreamWriter sw = File.CreateText(path);
